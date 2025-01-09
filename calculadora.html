@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<style>
+    html{
+        height: 100%;
+    }
+    body{
+        height: 100%;
+        display: flex;  
+        flex-direction: column;
+        align-items: center;
+    }
+
+    main{
+        .calculadora{
+            display: grid;
+            height: 100%;
+            grid-template-areas: 
+            "INPUT INPUT INPUT INPUT"
+            "ADICAO MENOS MULTIPLICA DIVIDE"
+            "7 8 9 IGUAL"
+            "4 5 6 IGUAL"
+            "1 2 3 IGUAL"
+            "0 VIRGULA RESETA IGUAL";
+
+            border: 2px solid gainsboro;
+            #INPUT{
+                grid-area: INPUT;
+            }
+
+            #ADICAO{
+                grid-area: ADICAO;
+            }
+
+            #MENOS{
+                grid-area: MENOS;
+            }
+
+            #MULTIPLICA{
+                grid-area: MULTIPLICA;
+            }
+
+            #DIVIDE{
+                grid-area: DIVIDE;
+            }
+
+            #VIRGULA{
+                grid-area: VIRGULA;
+            }
+
+            #RESETA{
+                grid-area: RESETA;
+            }
+
+            #IGUAL{
+                grid-area: IGUAL;
+            }
+
+            
+
+
+        }
+    }
+
+</style>
+<body>
+    <header><h1>Calculadora do Rafinha</h1></header>
+    <main>
+        <!-- Input que recebe valores e exibe respostas -->
+        <!-- Botão de +, -, x, e divisão -->
+        <!-- Numeros de 0 a 9, vírgula e botão de resetar -->
+        <!-- Botão de igual -->
+
+        <div class="calculadora">
+            <input id="INPUT" type="text">
+            
+            <button id="ADICAO">+</button>
+            <button id="MENOS">-</button>
+            <button id="MULTIPLICA">x</button>
+            <button id="DIVIDE">÷</button>
+
+            <button id="um">1</button>
+            <button id="dois">2</button>
+            <button id="tres">3</button>
+            <button id="quatro">4</button>
+            <button id="cinco">5</button>
+            <button id="seis">6</button>
+            <button id="sete">7</button>
+            <button id="oito">8</button>
+            <button id="nove">9</button>
+            <button id="zero">0</button>
+
+            <button id="VIRGULA">,</button>
+            <button id="RESETA">c</button>
+            <button id="IGUAL">=</button>
+
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
