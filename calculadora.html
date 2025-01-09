@@ -21,7 +21,7 @@
             display: grid;
             height: 100%;
             grid-template-areas: 
-            "INPUT INPUT INPUT INPUT"
+            "display display display display"
             "ADICAO MENOS MULTIPLICA DIVIDE"
             "7 8 9 IGUAL"
             "4 5 6 IGUAL"
@@ -29,8 +29,8 @@
             "0 VIRGULA RESETA IGUAL";
 
             border: 2px solid gainsboro;
-            #INPUT{
-                grid-area: INPUT;
+            #display{
+                grid-area: display;
             }
 
             #ADICAO{
@@ -77,23 +77,23 @@
         <!-- Botão de igual -->
 
         <div class="calculadora">
-            <input id="INPUT" type="text">
+            <input id="display" type="text">
             
             <button id="ADICAO">+</button>
             <button id="MENOS">-</button>
             <button id="MULTIPLICA">x</button>
             <button id="DIVIDE">÷</button>
 
-            <button id="um">1</button>
-            <button id="dois">2</button>
-            <button id="tres">3</button>
-            <button id="quatro">4</button>
-            <button id="cinco">5</button>
-            <button id="seis">6</button>
-            <button id="sete">7</button>
-            <button id="oito">8</button>
-            <button id="nove">9</button>
-            <button id="zero">0</button>
+            <button id="teclaUm">1</button>
+            <button id="teclaDois">2</button>
+            <button id="teclaTres">3</button>
+            <button id="teclaQuatro">4</button>
+            <button id="teclaCinco">5</button>
+            <button id="teclaSeis">6</button>
+            <button id="teclaSete">7</button>
+            <button id="teclaOito">8</button>
+            <button id="teclaNove">9</button>
+            <button id="teclaZero">0</button>
 
             <button id="VIRGULA">,</button>
             <button id="RESETA">c</button>
@@ -102,5 +102,21 @@
         </div>
     </main>
     <footer></footer>
+
+    <script>
+        
+        let display = document.getElementById('display');
+        let numeros = document.querySelectorAll('[id*=tecla]');
+
+        function displayAdd(info){
+            display.value += info;
+            console.log(info);
+        }
+
+        numeros.forEach(numero => numero.addEventListener('click', ()=> {
+            displayAdd(event.target.textContent);
+        }))
+
+    </script>
 </body>
 </html>
