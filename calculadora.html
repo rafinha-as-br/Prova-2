@@ -33,6 +33,10 @@
                 grid-area: display;
             }
 
+            .clicado{
+                background-color: aqua;
+            }
+
             #ADICAO{
                 grid-area: ADICAO;
             }
@@ -79,10 +83,10 @@
         <div class="calculadora">
             <input id="display" type="text">
             
-            <button id="ADICAO">+</button>
-            <button id="MENOS">-</button>
-            <button id="MULTIPLICA">x</button>
-            <button id="DIVIDE">÷</button>
+            <button id="operador">+</button>
+            <button id="operador">-</button>
+            <button id="operador">x</button>
+            <button id="operador">÷</button>
 
             <button id="teclaUm">1</button>
             <button id="teclaDois">2</button>
@@ -107,15 +111,66 @@
         
         let display = document.getElementById('display');
         let numeros = document.querySelectorAll('[id*=tecla]');
+        let operadores = document.querySelectorAll('[id*=operador]');
+        
+        let bntVIRGULA = document.getElementById('VIRGULA');
+        let bntRESETA = document.getElementById('RESETA');
+        let bntIGUAL = document.getElementById('IGUAL');
 
-        function displayAdd(info){
-            display.value += info;
-            console.log(info);
-        }
+        let reset= false;
+        let operacao = 0;
+        let numeroAntigo = 0;
+        let numeroNovo= 0;
+
 
         numeros.forEach(numero => numero.addEventListener('click', ()=> {
             displayAdd(event.target.textContent);
         }))
+
+        operadores.forEach(operador => operador.addEventListener('click', ()=>{
+            if(reset==false){
+                numeroAntigo = display.value;  
+            }
+            if(operacao !== event.target.textContent && numeroAntigo == display.value){      
+                    operadores.forEach(operador => operador.classList.remove('clicado'));
+                    operador.classList.add('clicado');
+                    operacao = event.target.textContent;
+                    reset=true;
+                    console.log(operacao);
+                    console.log(numeroAntigo);
+            }
+
+        }));
+
+
+
+        bntVIRGULA.addEventListener("click", ()=>{
+            displayAdd(',');
+        })
+        bntRESETA.addEventListener("click", ()=>{
+                    // A FAZER AINDA \\
+        })
+
+        bntIGUAL.addEventListener("click", ()=>{
+                    // A FAZER AINDA \\
+        })
+
+
+        // \ FUNÇÕES
+
+        function displayAdd(info){ 
+            if(reset==true){
+                display.value= info;
+            } else{
+                display.value += info;
+                console.log(info);
+                reset==false;
+
+            }
+
+        }
+
+
 
     </script>
 </body>
