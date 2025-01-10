@@ -83,21 +83,21 @@
         <div class="calculadora">
             <input id="display" type="text">
             
-            <button id="operador">+</button>
-            <button id="operador">-</button>
-            <button id="operador">x</button>
-            <button id="operador">÷</button>
+            <button class="operador">+</button>
+            <button class="operador">-</button>
+            <button class="operador">x</button>
+            <button class="operador">÷</button>
 
-            <button id="teclaUm">1</button>
-            <button id="teclaDois">2</button>
-            <button id="teclaTres">3</button>
-            <button id="teclaQuatro">4</button>
-            <button id="teclaCinco">5</button>
-            <button id="teclaSeis">6</button>
-            <button id="teclaSete">7</button>
-            <button id="teclaOito">8</button>
-            <button id="teclaNove">9</button>
-            <button id="teclaZero">0</button>
+            <button class="tecla">1</button>
+            <button class="tecla">2</button>
+            <button class="tecla">3</button>
+            <button class="tecla">4</button>
+            <button class="tecla">5</button>
+            <button class="tecla">6</button>
+            <button class="tecla">7</button>
+            <button class="tecla">8</button>
+            <button class="tecla">9</button>
+            <button class="tecla">0</button>
 
             <button id="VIRGULA">,</button>
             <button id="RESETA">c</button>
@@ -110,17 +110,18 @@
     <script>
         
         let display = document.getElementById('display');
-        let numeros = document.querySelectorAll('[id*=tecla]');
-        let operadores = document.querySelectorAll('[id*=operador]');
+        let numeros = document.querySelectorAll('.tecla'); 
+        let operadores = document.querySelectorAll('.operador');
         
         let bntVIRGULA = document.getElementById('VIRGULA');
         let bntRESETA = document.getElementById('RESETA');
         let bntIGUAL = document.getElementById('IGUAL');
 
-        let reset= false;
+        let reset= true;
         let operacao = 0;
         let numeroAntigo = 0;
         let numeroNovo= 0;
+        let memoria
 
 
         numeros.forEach(numero => numero.addEventListener('click', ()=> {
@@ -128,17 +129,38 @@
         }))
 
         operadores.forEach(operador => operador.addEventListener('click', ()=>{
+
+            operadores.forEach(operador => operador.classList.remove('clicado'));
+            event.target.classList.add('clicado');
+
+            operacao = event.target.textContent;
+
+
             if(reset==false){
-                numeroAntigo = display.value;  
+                numeroNovo = parseFloat(display.value);  
+                // aqui ele faz os cáculos \
+
+                if(operador = '+'){
+
+                    numeroAntigo += numeroNovo;
+                    numeroNovo = 0;
+                    
+                    display.value = numeroAntigo;
+
+                    console.log('teste');
+                }
+
+
             }
-            if(operacao !== event.target.textContent && numeroAntigo == display.value){      
-                    operadores.forEach(operador => operador.classList.remove('clicado'));
-                    operador.classList.add('clicado');
-                    operacao = event.target.textContent;
-                    reset=true;
-                    console.log(operacao);
-                    console.log(numeroAntigo);
-            }
+
+
+            reset=true;
+
+            console.log('operador eh: ' + operacao);
+            console.log('O numero antigo eh: ' + numeroAntigo);
+            console.log('O numero novo eh: ' + numeroNovo);
+
+
 
         }));
 
@@ -161,10 +183,9 @@
         function displayAdd(info){ 
             if(reset==true){
                 display.value= info;
+                reset=false;
             } else{
                 display.value += info;
-                console.log(info);
-                reset==false;
 
             }
 
