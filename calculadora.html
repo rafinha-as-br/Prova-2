@@ -118,10 +118,9 @@
         let bntIGUAL = document.getElementById('IGUAL');
 
         let reset= true;
-        let operacao = 0;
+        let operacao = null;
         let numeroAntigo = 0;
         let numeroNovo= 0;
-        let memoria
 
 
         numeros.forEach(numero => numero.addEventListener('click', ()=> {
@@ -133,27 +132,31 @@
             operadores.forEach(operador => operador.classList.remove('clicado'));
             event.target.classList.add('clicado');
 
-            operacao = event.target.textContent;
 
 
             if(reset==false){
                 numeroNovo = parseFloat(display.value);  
-                // aqui ele faz os cáculos \
 
-                if(operador = '+'){
 
-                    numeroAntigo += numeroNovo;
-                    numeroNovo = 0;
-                    
-                    display.value = numeroAntigo;
+                // aqui ele faz os cáculos 
+                switch(operacao){
+                    case '+':
+                        numeroAntigo += numeroNovo;
+                        break;
+                    case '-':
+                        numeroAntigo -= numeroNovo;
+                        break;
 
-                    console.log('teste');
+                    default:
+                        numeroAntigo = numeroNovo;
+                        //Apenas para a primeira operação
                 }
 
+                display.value = numeroAntigo;
 
-            }
+            } 
 
-
+            operacao = event.target.textContent;
             reset=true;
 
             console.log('operador eh: ' + operacao);
@@ -169,13 +172,46 @@
         bntVIRGULA.addEventListener("click", ()=>{
             displayAdd(',');
         })
+
+        
         bntRESETA.addEventListener("click", ()=>{
-                    // A FAZER AINDA \\
+            operadores.forEach(operador => operador.classList.remove('clicado'));
+            numeroAntigo = 0;
+            numeroNovo = 0;
+            operacao = null;
+            reset = true;
+            display.value = '';
         })
 
+
+
+
+
+
+
         bntIGUAL.addEventListener("click", ()=>{
-                    // A FAZER AINDA \\
+            if (reset === false) {
+                numeroNovo = parseFloat(display.value);
+                switch (operacao) {
+                    case '+':
+                        numeroAntigo += numeroNovo;
+                        break;
+                    case '-':
+                        numeroAntigo -= numeroNovo;
+                        break;
+                    case 'x':
+                        numeroAntigo *= numeroNovo;
+                        break;
+                    case '÷':
+                        numeroAntigo /= numeroNovo;
+                        break;
+                }
+                display.value = numeroAntigo;
+                reset = true;
+            }        
         })
+
+
 
 
         // \ FUNÇÕES
