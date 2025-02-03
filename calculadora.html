@@ -35,43 +35,15 @@
             "1 2 3 IGUAL"
             "0 VIRGULA RESETA IGUAL";
 
-            #display{
-                grid-area: display;
-
-            }
+            #ADICAO{grid-area: ADICAO;} #MENOS{grid-area: MENOS;} #MULTIPLICA{grid-area: MULTIPLICA;} 
+            #DIVIDE{grid-area: DIVIDE;} #VIRGULA{grid-area: VIRGULA;} #RESETA{grid-area: RESETA;} 
+            #IGUAL{grid-area: IGUAL;} #display{grid-area: display;}
             
             .form-control:focus {
                 outline: none;
                 box-shadow: none;
             }
-            #ADICAO{
-                grid-area: ADICAO;
-            }
-
-            #MENOS{
-                grid-area: MENOS;
-            }
-
-            #MULTIPLICA{
-                grid-area: MULTIPLICA;
-            }
-
-            #DIVIDE{
-                grid-area: DIVIDE;
-            }
-
-            #VIRGULA{
-                grid-area: VIRGULA;
-            }
-
-            #RESETA{
-                grid-area: RESETA;
-            }
-
-            #IGUAL{
-                grid-area: IGUAL;
-                
-            }
+            
 
             
         }
@@ -81,19 +53,21 @@
 <body>
     <header><h1>Calculadora do Rafinha</h1></header>
     <main>
-        <!-- Input que recebe valores e exibe respostas -->
-        <!-- Botão de +, -, x, e divisão -->
-        <!-- Numeros de 0 a 9, vírgula e botão de resetar -->
-        <!-- Botão de igual -->
+        <!-- 
+        - Input que recebe valores e exibe respostas 
+        - Botão de +, -, x, e divisão 
+        - Numeros de 0 a 9, vírgula e botão de resetar
+        - Botão de igual
+        -->
 
         <div class="calculadora border border-1">
 
             <input id="display" type="text" class="form-control text-end ">
 
-            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1 ">+</button>
-            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">-</button>
-            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">x</button>
-            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">÷</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0  border border-1 ">+</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0 border border-1">-</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0  border border-1">x</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0 border border-1">÷</button>
             
             <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">7</button>
             <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">8</button>
@@ -129,10 +103,11 @@
         let reset= true;
         let operacao= null;
 
+        //adiciona ao display os números
         numeros.forEach(numero => numero.addEventListener('click', ()=> {
             displayAdd(event.target.textContent);
         }))
-
+        //adiciona os operadores ao display
         operadores.forEach(operador => operador.addEventListener('click', ()=>{
             operacao= event.target.textContent;
             if(operacao=='÷'){
@@ -166,6 +141,7 @@
             }        
         })
 
+        //função que adiciona os números e operações ao display
         function displayAdd(info){ 
             if(reset==true){
                 display.value= info;
@@ -176,8 +152,6 @@
             }
 
         }
-
-
 
     </script>
 
