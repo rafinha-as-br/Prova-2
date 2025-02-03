@@ -22,6 +22,11 @@
         .calculadora{
             display: grid;
             height: 100%;
+            gap: 2px;
+            padding: 5px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+
             grid-template-areas: 
             "display display display display"
             "ADICAO MENOS MULTIPLICA DIVIDE"
@@ -30,15 +35,15 @@
             "1 2 3 IGUAL"
             "0 VIRGULA RESETA IGUAL";
 
-            border: 2px solid gainsboro;
             #display{
                 grid-area: display;
-            }
 
-            .clicado{
-                background-color: aqua;
             }
-
+            
+            .form-control:focus {
+                outline: none;
+                box-shadow: none;
+            }
             #ADICAO{
                 grid-area: ADICAO;
             }
@@ -65,11 +70,10 @@
 
             #IGUAL{
                 grid-area: IGUAL;
+                
             }
 
             
-
-
         }
     }
 
@@ -82,32 +86,35 @@
         <!-- Numeros de 0 a 9, vírgula e botão de resetar -->
         <!-- Botão de igual -->
 
-        <div class="calculadora">
-            <input id="display" type="text">
+        <div class="calculadora border border-1">
+
+            <input id="display" type="text" class="form-control text-end ">
+
+            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1 ">+</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">-</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">x</button>
+            <button class="operador btn btn-secondary btn-sm rounded-0 rounded-0 border border-1">÷</button>
             
-            <button class="operador">+</button>
-            <button class="operador">-</button>
-            <button class="operador">x</button>
-            <button class="operador">÷</button>
-
-            <button class="tecla">1</button>
-            <button class="tecla">2</button>
-            <button class="tecla">3</button>
-            <button class="tecla">4</button>
-            <button class="tecla">5</button>
-            <button class="tecla">6</button>
-            <button class="tecla">7</button>
-            <button class="tecla">8</button>
-            <button class="tecla">9</button>
-            <button class="tecla">0</button>
-
-            <button id="VIRGULA">,</button>
-            <button id="RESETA">c</button>
-            <button id="IGUAL">=</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">7</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">8</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">9</button>
+            
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">4</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">5</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1">6</button>
+            
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1 ">1</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1 ">2</button>
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1 ">3</button>
+            
+            
+            <button class="tecla btn btn-outline-secondary bton-sm rounded-0 border border-1  ">0</button>
+            <button id="VIRGULA" class="operador btn btn-outline-secondary bton-sm rounded-0 border border-1 ">,</button>
+            <button id="IGUAL"  class="btn btn-primary rounded-0 border border-1">=</button>
+            <button id="RESETA" class="btn btn-outline-secondary bton-sm rounded-0 border border-1 ">c</button>
 
         </div>
-    </main>
-    <footer></footer>
+
 
     <script>
         
@@ -120,115 +127,44 @@
         let bntIGUAL = document.getElementById('IGUAL');
 
         let reset= true;
-        let operacao = null;
-        let numeroAntigo = 0;
-        let numeroNovo= 0;
-
+        let operacao= null;
 
         numeros.forEach(numero => numero.addEventListener('click', ()=> {
             displayAdd(event.target.textContent);
         }))
 
         operadores.forEach(operador => operador.addEventListener('click', ()=>{
-
-            operadores.forEach(operador => operador.classList.remove('clicado'));
-            event.target.classList.add('clicado');
-
-
-
-            if(reset==false){
-                numeroNovo = parseFloat(display.value);  
-
-
-                // aqui ele faz os cáculos 
-                switch(operacao){
-                    case '+':
-                        numeroAntigo += numeroNovo;
-                        break;
-                    
-                    case '-':
-                        numeroAntigo -= numeroNovo;
-                        break;
-                    
-                    case 'x':
-                        numeroAntigo *= numeroNovo;
-                        break;
-                    
-                    case '÷':
-                        numeroAntigo /= numeroNovo;
-                        break;
-
-
-                    default:
-                        numeroAntigo = numeroNovo;
-                        //Apenas para a primeira operação
+            operacao= event.target.textContent;
+            if(operacao=='÷'){
+                operacao='/';
+            } else{
+                if(operacao=='x'){
+                    operacao='*';
+                } else{
+                    if(operacao==','){
+                        operacao='.'
+                    }
                 }
-
-                display.value = numeroAntigo;
-
-            } 
-
-            operacao = event.target.textContent;
-            reset=true;
-
-            console.log('operador eh: ' + operacao);
-            console.log('O numero antigo eh: ' + numeroAntigo);
-            console.log('O numero novo eh: ' + numeroNovo);
-
-
+            }
+            displayAdd(operacao);
 
         }));
-
-
-
-        bntVIRGULA.addEventListener("click", ()=>{
-            if (!display.value.includes(",")) {
-            displayAdd(".");
-            }        
-        })
-
-        
+ 
         bntRESETA.addEventListener("click", ()=>{
             operadores.forEach(operador => operador.classList.remove('clicado'));
-            numeroAntigo = 0;
-            numeroNovo = 0;
             operacao = null;
             reset = true;
             display.value = '';
         })
 
-
-
-
-
-
-
         bntIGUAL.addEventListener("click", ()=>{
             if (reset === false) {
-                numeroNovo = parseFloat(display.value);
-                switch (operacao) {
-                    case '+':
-                        numeroAntigo += numeroNovo;
-                        break;
-                    case '-':
-                        numeroAntigo -= numeroNovo;
-                        break;
-                    case 'x':
-                        numeroAntigo *= numeroNovo;
-                        break;
-                    case '÷':
-                        numeroAntigo /= numeroNovo;
-                        break;
-                }
-                display.value = numeroAntigo;
-                reset = true;
+                let operacao = display.value;
+
+                display.value = eval(operacao);
+                console.log(eval(operacao));
             }        
         })
-
-
-
-
-        // \ FUNÇÕES
 
         function displayAdd(info){ 
             if(reset==true){
