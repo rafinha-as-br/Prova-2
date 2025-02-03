@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cronômetro</title>
 </head>
+
+<style>
+
+</style>
 <body>
-    
+    <!-- cronometro:
+    - tela que exibe o tempo
+    - botão que inicia
+    - botão que pausa e marca o tempo na lateral
+    - botão de zerar o cronometro 
+    -->
+
+    <div class="cronometro">
+        <div class="telaCronometro">
+            <div id="horas">00</div>
+            <span>:</span>
+            <div id="minutos">00</div>
+            <span>:</span>
+            <div id="segundos">00</div>
+        </div>
+        <div class="botoes">
+            <buttton id="iniciaOuPausa"></buttton>
+            <button id="reseta"></button>
+        </div>
+        <div class="telaMarcacoes"></div>
+    </div>
+
+
+    <script>
+        let horas = document.getElementById("horas");
+        let minutos = document.getElementById("minutos");
+        let segundos =  document.getElementById("segundos");
+        
+        setInterval(() => {
+                let agora = new Date()
+//                console.log(agora);
+            }, 1000);
+        
+        
+
+    </script>
 </body>
 </html>

@@ -62,7 +62,7 @@
 
         <div class="calculadora border border-1">
 
-            <input id="display" type="text" class="form-control text-end ">
+            <input id="display" type="text" placeholder="0" class="form-control text-end ">
 
             <button class="operador btn btn-secondary btn-sm rounded-0  border border-1 ">+</button>
             <button class="operador btn btn-secondary btn-sm rounded-0 border border-1">-</button>
@@ -125,32 +125,23 @@
 
         }));
  
+        //botão de calcular
+        bntIGUAL.addEventListener("click", ()=>{
+            let operacao = display.value;
+            display.value = eval(operacao);
+            console.log(eval(operacao));
+        })
+        
+        //botão de resetar
         bntRESETA.addEventListener("click", ()=>{
             operadores.forEach(operador => operador.classList.remove('clicado'));
             operacao = null;
-            reset = true;
             display.value = '';
-        })
-
-        bntIGUAL.addEventListener("click", ()=>{
-            if (reset === false) {
-                let operacao = display.value;
-
-                display.value = eval(operacao);
-                console.log(eval(operacao));
-            }        
         })
 
         //função que adiciona os números e operações ao display
         function displayAdd(info){ 
-            if(reset==true){
-                display.value= info;
-                reset=false;
-            } else{
                 display.value += info;
-
-            }
-
         }
 
     </script>
