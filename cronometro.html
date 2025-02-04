@@ -93,21 +93,25 @@
         let tempoDecorrido = 0;
         let olList = document.getElementById("listaM");
         let botao1 = document.getElementById("iniciaOuPausa");
+        let botao2 = document.getElementById("reseta");
+        let marcacao;
 
         botao1.addEventListener('click', ()=>{
             
-            
+            //Verifica a função de pausar primeiro para evitar o começo de novo ciclo de contagem
             if(pausa==true){
                 clearInterval(intervalo);
-                pausa=false;
+                pausa=false; //variável de controle para saber se o cronometro está rodando ou não
                 botao1.textContent = 'Continuar';
-                let marcacao = document.createElement("li");
+                marcacao = document.createElement("li");
                 marcacao.textContent = `${document.getElementById("Display").innerText}`;
                 olList.appendChild(marcacao);
             } else{
-                pausa=true;
+                pausa=true; 
                 botao1.textContent = 'Pausar';
-                let tempoInicial = Date.now() - tempoDecorrido;
+                
+                let tempoInicial = Date.now() - tempoDecorrido; //Cálculo para que ao despausar, continue de onde parou
+
                 intervalo = setInterval(() => {
                     let agora = Date.now();
                     tempoDecorrido = agora - tempoInicial; //dá o tempo em miliseg
@@ -125,15 +129,13 @@
             
         })
 
-
-
-
-        
-//        setInterval(() => {
-//                let agora = new Date()
-//                console.log(agora);
-//            }, 1000);
-        
+        botao2.addEventListener("click", ()=>{
+            pausa = false;
+            botao1.textContent = 'Iniciar';
+            document.getElementById("Display").innerText = `00:00:00`;
+            marcacao.remove();
+            tempoDecorrido = 0;
+        })
         
 
     </script>
