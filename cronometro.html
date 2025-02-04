@@ -20,12 +20,43 @@
     }
 
     .cronometro{
-        #telaCronometro{
+        display: flex;  
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+        width: 450px;
+        .telaCronometro{
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
+            flex-direction: column;
+            text-align: center;
+            width: 200px;
+            min-height: 200px;
+            #Display{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+            }
+            .botoes{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+
+                button{
+                    min-width: 75px;
+                }
+            }
+        }
+
+        .telaMarcacoes{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            min-height: 200px;
+
         }
     }
 </style>
@@ -37,34 +68,46 @@
     - botão de zerar o cronometro 
     -->
 
-    <div class="cronometro">
-        <div id="telaCronometro">
-            00:00:00
+    <div class="cronometro p-3 mb-2 bg-body-secondary">
+        <div class="telaCronometro p-3 mb-2 bg-dark text-white">
+            <h3>Cronômetro</h3>
+            <div id="Display" class="p-3 mb-2 bg-black text-white">
+                00:00:00
+            </div>
+            <div class="botoes">
+                <button id="iniciaOuPausa" class="btn btn-sm btn-outline-primary">Iniciar</button>
+                <button id="reseta" class="btn btn-sm btn-outline-secondary">Resetar</button>
+            </div>
         </div>
-        <div class="botoes">
-            <button id="iniciaOuPausa">Iniciar</button>
-            <button id="reseta">Resetar</button>
+        <div class="telaMarcacoes p-3 mb-2 bg-dark text-white">
+            <h3>Marcações</h3>
+            <ol id="listaM">
+            </ol>
         </div>
-        <div class="telaMarcacoes"></div>
     </div>
 
 
     <script>
         let pausa = false;
         let intervalo;
-
+        let tempoDecorrido = 0;
+        let olList = document.getElementById("listaM");
         let botao1 = document.getElementById("iniciaOuPausa");
+
         botao1.addEventListener('click', ()=>{
             
-            let tempoInicial = Date.now()
             
             if(pausa==true){
                 clearInterval(intervalo);
                 pausa=false;
                 botao1.textContent = 'Continuar';
+                let marcacao = document.createElement("li");
+                marcacao.textContent = `${document.getElementById("Display").innerText}`;
+                olList.appendChild(marcacao);
             } else{
                 pausa=true;
-                botao1.textContent = 'pausar';
+                botao1.textContent = 'Pausar';
+                let tempoInicial = Date.now() - tempoDecorrido;
                 intervalo = setInterval(() => {
                     let agora = Date.now();
                     tempoDecorrido = agora - tempoInicial; //dá o tempo em miliseg
@@ -74,7 +117,7 @@
                     let M = String(Math.floor((totalSegundos%3600)/60)).padStart(2, '0');
                     let S = String(totalSegundos % 60).padStart(2, '0');
 
-                    document.getElementById("telaCronometro").innerText = `${H}:${M}:${S}`;
+                    document.getElementById("Display").innerText = `${H}:${M}:${S}`;
                     
                 }, 1000)
 
