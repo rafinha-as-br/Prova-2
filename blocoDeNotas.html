@@ -32,12 +32,21 @@
                 margin: 0px;
             }
 
-            .form-text{
-                font-size: 5px;
-                color: white;
-                text-align: start;
-                margin: 0px;
+            .inputDIV{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                
+                .form-text{
+                    font-size: 10px;
+                    color: #0dcaf0;
+                    text-align: start;
+                    padding-left: 5px;
+                    visibility: hidden;
+                }
             }
+
+            
 
             .form-control:focus {
                 outline: none;
@@ -61,9 +70,17 @@
                     min-height: 170px;
                     .botoesLI{
                         display: flex;
-                        flex-direction: row;
-                        justify-content: center;
+                        flex-direction: column;
                         gap: 5px;
+                        hr{
+                            margin: 0px;
+                            color: #0dcaf0;
+                        }
+                        .botoesLI2{
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-around;
+                        }
                     }
                 }
             }
@@ -76,8 +93,8 @@
         <div class="cadastroNotas p-3 mb-2 bg-dark text-white border border-info">
             <h3 id="titulo1">Bloco de notas</h3>
             <div class="inputDIV">
+                <div class="form-text" id="basic-addon4">''</div>
                 <input id="nota" type="text" placeholder="Crie aqui uma nota" class="form-control">
-                <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
             </div>
             <button id="salvar" class="btn btn-sm btn-outline-info">Salvar</button>
         </div>
@@ -89,40 +106,41 @@
     </div>
 
     <script>
-        //Sistema tem que conter: 
-        // - cadastrar
-        // - listar
-        // - editar  
-        // - excluir
+
         let titulo = document.querySelector("#titulo1");
         let inputnota=document.querySelector("#nota");
         let bntsalvar=document.querySelector("#salvar");
         let lista=document.querySelector("ul");
+        let textoAuxiliar = document.querySelector("#basic-addon4");
         let contador=0;
         let modoEdit = false;
         let controladorIndex;
         
         let notas = JSON.parse(localStorage.getItem("notas")) || []; //converte de string para array e pega as salvas do localStorage
-        
+    
         
         for(let i=0; i<localStorage.length; i++){ 
             atualizalista(); //carregador das notas salvas
         } 
 
         bntsalvar.addEventListener("click", ()=>{
-            let nota = inputnota.value //verifica o texto do input
+            let nota = inputnota.value.trim(); //verifica o texto do input e remove espaços em branco do início e fim
+            if(nota== ""){
+                textoAuxiliar.innerHTML='Não é possível criar notas sem conteúdo!'
+                textoAuxiliar.style.visibility = "visible"
+            } else{    
+                if(modoEdit==true){ //verifica se quer editar
+                    notas[controladorIndex] = nota;
+                    modoEdit= false;
+                    bntsalvar.innerText = "Salvar";
+                    textoAuxiliar.style.visibility = "hidden"
+                } else{ //cria nota nova
+                    notas.push(inputnota.value);
+                    localStorage.setItem("notas", JSON.stringify(notas)); //Converte para string
 
-            if(modoEdit==true){ //verifica se quer editar
-                notas[controladorIndex] = nota;
-                modoEdit= false;
-                bntsalvar.innerText = "Salvar";
-                
-            } else{ //cria nota nova
-                notas.push(inputnota.value);
-                localStorage.setItem("notas", JSON.stringify(notas)); //Converte para string
-
+                }
+                atualizalista();
             }
-            atualizalista();
         })
 
         function atualizalista(){
@@ -132,8 +150,8 @@
                 let li=document.createElement("li");
                 li.classList.add("p-2", "mb-1", "bg-light", "text-dark", "border", "border-black");
                 li.innerHTML=`${nota} 
-                <div class="botoesLI"> <button onclick="editar(${index})" class="btn btn-outline-secondary btn-sm ">Editar</button> 
-                <button onclick="excluir(${index})" class="btn btn-outline-danger btn-sm">Excluir</button>  </div>`;  
+                <div class="botoesLI"> <hr>  <div class="botoesLI2"> <button onclick="editar(${index})" class="btn btn-outline-secondary btn-sm ">Editar</button> 
+                <button onclick="excluir(${index})" class="btn btn-outline-danger btn-sm">Excluir</button>  </div>  </div>`;  
                 
                 lista.appendChild(li);
                 inputnota.value="";
@@ -148,6 +166,8 @@
             modoEdit = true;
 
             titulo.scrollIntoView();
+            textoAuxiliar.innerHTML='Edite sua mensagem!'
+            textoAuxiliar.style.visibility = "visible"
         }
 
         function excluir(index){
