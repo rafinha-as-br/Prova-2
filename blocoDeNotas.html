@@ -21,7 +21,7 @@
     .blocoNotas{
         display: flex;
         flex-direction: column;
-        width: 400px;
+        width: 500px;
         .cadastroNotas{
             display: flex;
             flex-direction: column;
@@ -35,9 +35,25 @@
         .exibeNotas{
             ul{
                 display: grid;
-                grid-template-columns: repeat(3, minmax(100px, 1fr));
+                grid-template-columns: repeat(3, minmax(110px, 1fr));
                 gap: 5px;
-
+                padding: 0px;
+                margin: 0px;
+                justify-content: center;
+                list-style: none;
+                li{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: none;
+                    min-height: 170px;
+                    .botoesLI{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        gap: 5px;
+                    }
+                }
             }
         }
     }
@@ -87,7 +103,11 @@
 
             notas.forEach((nota,index)=>{
                 let li=document.createElement("li");
-                li.innerHTML=`${nota} <button onclick="editar(${index})">Editar</button>`;  
+                li.classList.add("p-2", "mb-1", "bg-light", "text-dark", "border", "border-black");
+                li.innerHTML=`${nota} 
+                <div class="botoesLI"> <button onclick="editar(${index})" class="btn btn-secondary btn-sm ">Editar</button> 
+                <button onclick="excluir(${index})" class="btn btn-danger btn-sm">Excluir</button>  </div>`;  
+                
                 lista.appendChild(li);
                 inputnota.value="";
                 
