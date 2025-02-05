@@ -26,7 +26,19 @@
             display: flex;
             flex-direction: column;
             text-align: center;
-            gap: 5px;
+            gap: 15px;
+
+            h3{
+                margin: 0px;
+            }
+
+            .form-text{
+                font-size: 5px;
+                color: white;
+                text-align: start;
+                margin: 0px;
+            }
+
             .form-control:focus {
                 outline: none;
                 box-shadow: none;
@@ -62,9 +74,11 @@
 <body>
     <div class="blocoNotas p-3 mb-2 bg-body-secondary ">
         <div class="cadastroNotas p-3 mb-2 bg-dark text-white border border-info">
-            <h3>Bloco de notas</h3>
-
-            <input id="nota" type="text" placeholder="Crie aqui uma nota" class="form-control">
+            <h3 id="titulo1">Bloco de notas</h3>
+            <div class="inputDIV">
+                <input id="nota" type="text" placeholder="Crie aqui uma nota" class="form-control">
+                <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
+            </div>
             <button id="salvar" class="btn btn-sm btn-outline-info">Salvar</button>
         </div>
         <div class="exibeNotas telaMarcacoes p-3 mb-2 bg-dark text-white border border-info">
@@ -80,21 +94,34 @@
         // - listar
         // - editar  
         // - excluir
-
+        let titulo = document.querySelector("#titulo1");
         let inputnota=document.querySelector("#nota");
         let bntsalvar=document.querySelector("#salvar");
         let lista=document.querySelector("ul");
         let contador=0;
+        let modoEdit = false;
+        let controladorIndex;
         
         let notas = JSON.parse(localStorage.getItem("notas")) || []; //converte de string para array e pega as salvas do localStorage
+        
         
         for(let i=0; i<localStorage.length; i++){ 
             atualizalista(); //carregador das notas salvas
         } 
 
         bntsalvar.addEventListener("click", ()=>{
-            notas.push(inputnota.value);
-            localStorage.setItem("notas", JSON.stringify(notas)); //Converte para string
+            let nota = inputnota.value //verifica o texto do input
+
+            if(modoEdit==true){ //verifica se quer editar
+                notas[controladorIndex] = nota;
+                modoEdit= false;
+                bntsalvar.innerText = "Salvar";
+                
+            } else{ //cria nota nova
+                notas.push(inputnota.value);
+                localStorage.setItem("notas", JSON.stringify(notas)); //Converte para string
+
+            }
             atualizalista();
         })
 
@@ -105,8 +132,8 @@
                 let li=document.createElement("li");
                 li.classList.add("p-2", "mb-1", "bg-light", "text-dark", "border", "border-black");
                 li.innerHTML=`${nota} 
-                <div class="botoesLI"> <button onclick="editar(${index})" class="btn btn-secondary btn-sm ">Editar</button> 
-                <button onclick="excluir(${index})" class="btn btn-danger btn-sm">Excluir</button>  </div>`;  
+                <div class="botoesLI"> <button onclick="editar(${index})" class="btn btn-outline-secondary btn-sm ">Editar</button> 
+                <button onclick="excluir(${index})" class="btn btn-outline-danger btn-sm">Excluir</button>  </div>`;  
                 
                 lista.appendChild(li);
                 inputnota.value="";
@@ -114,6 +141,23 @@
             })
         }
 
+        function editar(index){
+            inputnota.value = notas[index];
+            bntsalvar.innerText = "Atualizar";
+            controladorIndex = index;
+            modoEdit = true;
+
+            titulo.scrollIntoView();
+        }
+
+        function excluir(index){
+            if(confirm("Atenção! Você tem certeza da remoção desta nota? Esta ação é IRREVERSÍVEL!")){
+                notas.splice(index, 1);
+                localStorage.setItem("notas", JSON.stringify(notas)); 
+                atualizalista();
+                alert("A nota foi excluída com sucesso!");
+            }
+        }
 
 
 
