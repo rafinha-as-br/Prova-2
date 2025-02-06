@@ -72,7 +72,7 @@
         <div class="telaCronometro p-3 mb-2 bg-dark text-white">
             <h3>Cronômetro</h3>
             <div id="Display" class="p-3 mb-2 bg-black text-white">
-                00:00:00
+                00:00:000
             </div>
             <div class="botoes">
                 <button id="iniciaOuPausa" class="btn btn-sm btn-outline-primary">Iniciar</button>
@@ -116,14 +116,16 @@
                     let agora = Date.now();
                     tempoDecorrido = agora - tempoInicial; //dá o tempo em miliseg
 
+                    let totalMilissegundos = tempoDecorrido;
                     let totalSegundos = Math.floor(tempoDecorrido/1000);
-                    let H = String(Math.floor(totalSegundos/3600)).padStart(2, '0');
-                    let M = String(Math.floor((totalSegundos%3600)/60)).padStart(2, '0');
-                    let S = String(totalSegundos % 60).padStart(2, '0');
+                    let M = String(Math.floor(totalMilissegundos / 60000)).padStart(2, '0'); 
+                    let S = String(Math.floor((totalMilissegundos % 60000) / 1000)).padStart(2, '0');
+                    let MS = String(totalMilissegundos % 1000).padStart(3, '0');
 
-                    document.getElementById("Display").innerText = `${H}:${M}:${S}`;
+
+                    document.getElementById("Display").innerText = `${M}:${S}:${MS}`;
                     
-                }, 1000)
+                }, 10)
 
             }
             
@@ -132,9 +134,11 @@
         botao2.addEventListener("click", ()=>{
             pausa = false;
             botao1.textContent = 'Iniciar';
-            document.getElementById("Display").innerText = `00:00:00`;
+            document.getElementById("Display").innerText = `00:00:000`;
             marcacao.remove();
+            olList.innerHTML="";
             tempoDecorrido = 0;
+
         })
         
 
