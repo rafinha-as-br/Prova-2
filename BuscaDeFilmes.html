@@ -19,47 +19,78 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 500px;
-
+            width: 700px;
+            
             .campoBusca{
                 display: flex;
                 flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                min-width: 625px;
 
-                .botoes{
-                    display: flex;
-                    flex-direction: column;
-                    
-                    gap: 5px;
+                .form-control:focus {
+                outline: none;
+                box-shadow: none;
+            }
+            }
+
+            .exibeFilmes{    
+
+                min-width: 625px;
+                min-height: 200px;
+
+                .filmesHeader{
+                    text-align: center;
+                    visibility: hidden;
+
+                }
+
+                #filmes{
+                    display: grid;
+                    grid-template-columns: repeat(3, minmax(70px, 1fr));
+
                 }
             }
-
-            #filmes{    
-                display: grid;
-                grid-template-columns: repeat(5, minmax(80px, 1fr));
-            }
-
+            
         }
         .poster{
+            display: flex;
+            flex-direction: column;
             height: 300px;
-            width: 100px;
+            align-items: center;
+            h6{
+                text-align: center;
+                font-size: 15px;
+                margin: 0px;
+            }
             img{
                 height: 100px;
+                width: 100px;
             }
+
+            ul{
+                font-size: 15px;
+                margin: 0px;
+
+            }
+            
         }
 
     </style>
 
 
 <body>
-    <div class="buscaFilmes p-3 mb-2 bg-body-secondary ">
-        <div class="campoBusca p-3 mb-2 bg-primary-subtle text-primary-emphasis">
-            <input type="text" class="form-control" >
-            <div class="botoes">   
-                <button id="buscar">Buscar</button>
-                <button id="resetar">Resetar</button>
-            </div>
+    <div class="buscaFilmes p-3 mb-2 bg-body-secondary border border-warning ">
+        <div class="campoBusca p-3 mb-2 bg-dark text-white border border-warning">
+            <h3>Buscador de filmes</h3>
+            <input type="text" class="form-control border border-black" >
+            <button id="buscar" class="btn btn-outline-warning">Buscar</button>
         </div>
-        <div id="filmes" class="p-3 mb-2 bg-primary-subtle text-primary-emphasis"></div>
+        <!-- <h3>Busque filmes utilizando a API gratuita OMDI</h3> -->
+        <div class="exibeFilmes p-3 mb-2 bg-dark text-white border border-warning">
+            <div class="filmesHeader">''</div>
+            <div id="filmes" class="filmesGrid"></div>
+        </div>
     </div>
 
 
@@ -67,12 +98,16 @@
 
         let inputText = document.querySelector("input");
         let bntBuscar = document.querySelector("#buscar");
+        let filmeHeaderTxt = document.querySelector(".filmesHeader")
         var apikey = "b76f27a8";
 
         
         
         bntBuscar.addEventListener("click", () =>{
             let titulo = inputText.value;
+            filmeHeaderTxt.innerHTML=`Exibindo resultados para: ${titulo}`
+            filmeHeaderTxt.style.visibility = "visible"
+            bntBuscar.innerText = "Limpar";
             // valida a chave
             url = `https://www.omdbapi.com/?s=${titulo}&apikey=${apikey}`;
             fetch(url)
@@ -90,9 +125,15 @@
         function posterFilme(json){
             poster= `
                 <div class="poster">
-                    <h2>${json.Title}</h2>
+                    <h6>${json.Title}</h6>
                     <img src="${json.Poster}">
-                    <p> Duração: ${json.Runtime} </p>
+                    <ul>
+                        <li>
+                            Duração: ${json.Runtime}
+                        </li>
+
+
+                    </ul>
                 </div>
 
             `
