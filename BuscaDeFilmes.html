@@ -138,6 +138,7 @@
         let bntBuscar = document.querySelector("#buscarResetar");
         let filmeHeaderTxt = document.querySelector(".filmesHeader")
         let textoSuperior = document.querySelector(".textoInputSuperior");
+        let divFilmes = document.querySelector("#filmes");
         var apikey = "b76f27a8";
         let pesquisaReset = false;
 
@@ -150,6 +151,7 @@
             if(pesquisaReset==true){
                 bntBuscar.innerText="Buscar";           
                 inputText.value=''
+                divFilmes.innerText = "";
                 pesquisaReset = false;
                 filmeHeaderTxt.innerHTML=`Este é um buscador de filmes web utilizando a API OMD! <br> Digite qualquer nome e encontraremos o seu filme!`
 
@@ -159,14 +161,14 @@
                     textoSuperior.style.visibility = "visible";
                     textoSuperior.innerHTML='Não é possível fazer buscas com menos de 4 caracteres!'
                     inputText.value=''
-                } else{
+                } else{ 
                     bntBuscar.innerText = "Limpar";
                     pesquisaReset= true;
                     // valida a chave
                     let url = `https://www.omdbapi.com/?s=${titulo}&apikey=${apikey}`;
                     fetch(url)
                     .then(r => r.json())
-                .then(dados => {
+                    .then(dados => {
                     if (dados.Search) {
                         document.getElementById("filmes").innerHTML = "";
                         dados.Search.forEach(filme => {
